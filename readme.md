@@ -46,7 +46,7 @@ npm i miz-59
 ```
 npm run build-miz
 ```
-2. **,se you'r Style:**
+2. **See Your Style:**
 ```
 npm run watch
 ```
@@ -55,7 +55,8 @@ npm run watch
 ```
 npm run publish:react
 ```
-- **Vue & Laravel:** Follow a similar process,
+- **Vue & Laravel:**
+Follow a similar process,
 
 4. **Optimize CSS**
 ```
@@ -64,11 +65,11 @@ npm run build-miz-clean
 
 ## Community
 
-- [Official MIZ Blog](#)
-- [GitHub Discussions](#)
-- [Community Discord](#) | [MIZ Subreddit](#)
-- [Stack Overflow](#) (tagged `bootstrap-5`)
-- Follow [@miz](#) on YouTube for updates and more.
+<!-- - [Official MIZ](https://eazymizy.com) -->
+- [GitHub Discussions MIZ](https://github.com/miz59/miz)
+<!-- - [Community Discord](#) | [MIZ Subreddit](#) -->
+<!-- - [Stack Overflow](#) (tagged `bootstrap-5`) -->
+<!-- - Follow [@miz](#) on YouTube for updates and more. -->
 
-## License
-This project is licensed under the MIT License.
+<!-- ## License -->
+<!-- This project is licensed under the MIT License. -->
