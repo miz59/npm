@@ -37,7 +37,7 @@ Simply download and run the installer for your system. Open the page in your bro
 
 Install MIZ with npm
 ```npm
-npm i miz59
+npm i miz-59
 ```
 
 ## Usage
