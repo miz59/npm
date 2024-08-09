@@ -1,0 +1,19 @@
+{
+  "name": "miz-59",
+  "version": "1.17.76",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "npm install ncp && npm install fa && npm install path && node postinstall.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/miz59/miz"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/miz59/miz/issues"
+  },
+  "homepage": "https://github.com/miz59/miz#readme"
+}
