@@ -23,7 +23,7 @@ else if(variable == 'react'){
     fontFaceFilePath = path.join(__dirname, 'src' , 'assets', 'css', 'font-faces.css');
 }
 
-const extensions = ['.html', '.blade.php','.js' , '.jsx'];
+const extensions = ['.html', '.blade.php','.js' , '.jsx' , 'vue'];
 
 const classPatterns = [
     /class\s*=\s*'([^']+)'/g,
