@@ -30,6 +30,7 @@ else {
 function laravelFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
+    const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
 
     const assetsFolder = 'public';
@@ -59,6 +60,13 @@ function laravelFramework() {
             return console.error('Error copying sass:', err);
         }
         console.log(`Sass copied to ${sassFolder}/sass/miz folder successfully!`);
+    });
+
+    ncp(htmlComponentSourceDir, mizDir, function (err) {
+        if (err) {
+            return console.error('Error copying html:', err);
+        }
+        console.log(`Html copied to ${sassFolder}/html/miz folder successfully!`);
     });
 
     fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
@@ -115,16 +123,13 @@ function laravelFramework() {
        
         moveFiles(mizDir, backupMizDir);
             
-    }else{
-        
-    }
-
-
+    }else{}
 }
 
 function reactFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
+    const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
 
     const assetsFolder = 'src';
@@ -154,6 +159,13 @@ function reactFramework() {
             return console.error('Error copying sass:', err);
         }
         console.log(`Sass copied to ${sassFolder}/sass/miz folder successfully!`);
+    });
+
+    ncp(htmlComponentSourceDir, mizDir, function (err) {
+        if (err) {
+            return console.error('Error copying html:', err);
+        }
+        console.log(`Html copied to ${sassFolder}/html/miz folder successfully!`);
     });
 
     fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
@@ -220,6 +232,7 @@ function reactFramework() {
 function vueFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
+    const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
 
     const assetsFolder = 'src';
@@ -227,6 +240,7 @@ function vueFramework() {
     const framework = 'vue';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
+    const htmlComponentDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'html');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     
     const backupMizDir = path.join(sassDestinationDir , 'backup-miz');
@@ -249,6 +263,13 @@ function vueFramework() {
             return console.error('Error copying sass:', err);
         }
         console.log(`Sass copied to ${sassFolder}/sass/miz folder successfully!`);
+    });
+
+    ncp(htmlComponentSourceDir, mizDir, function (err) {
+        if (err) {
+            return console.error('Error copying html:', err);
+        }
+        console.log(`Html copied to ${sassFolder}/html/miz folder successfully!`);
     });
 
     fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {

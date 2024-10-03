@@ -1,0 +1,60 @@
+@import "../../../config";
+
+$backgrounds:(primary,on-primary,primary-light,primary-dark,secondary,on-secondary,secondary-light,secondary-dark,specific,button-text,button,text,title-text,secondary-text,section-title-text,border,divider,shadow,icon,menu,card,background,section,hover,button-hover,text-hover,button-text-hover,danger-regular,disabled-regular,warning-regular,warning-light,warning-dark,success-regular,success-light,success-dark,danger-dark,danger-light,disabled-light,disabled-dark,information-regular,information-light,information-dark,border-secondary,unCommon);
+$colors:(primary,on-primary,primary-light,primary-dark,secondary,on-secondary,secondary-light,secondary-dark,specific,button-text,button,text,title-text,secondary-text,section-title-text,border,divider,shadow,icon,menu,card,background,section,hover,button-hover,text-hover,button-text-hover,danger-regular,disabled-regular,warning-regular,warning-light,warning-dark,success-regular,success-light,success-dark,danger-dark,danger-light,disabled-light,disabled-dark,information-regular,information-light,information-dark,border-secondary,unCommon);
+$borders:(border,primary);
+
+$color-palette-themes:(
+    primary: #3761EB,
+    on-primary: #FFFFFF,
+    primary-light: #E9EDFA,
+    primary-dark: #0C2780,
+    secondary: #272E3F,
+    on-secondary: #FFFFFF,
+    secondary-light: #3C4252,
+    secondary-dark: #0F172A,
+    specific: #38BDF8,
+    button-text: #FFFFFF,
+    button: #3761EB,
+    text: #707479,
+    title-text: #0F172A,
+    secondary-text: #AFB3BC,
+    section-title-text: #FFFFFF,
+    border: #E4E6E8,
+    divider: #E6E7EA,
+    shadow: #DEDEDE,
+    icon: #3761EB,
+    icon-hover: #FFFFFF,
+    menu: #FFFFFF,
+    card: #FFFFFF,
+    background: #FAFAFA,
+    section: #FFFFFF,
+    hover: #9E9E9E,
+    button-hover: #FFFFFF,
+    text-hover: #FFFFFF,
+    fields: #F3F3F5,
+    border-fields: #D7D7D7,
+    title-text-fields: #FFFFFF,
+    text-fields: #64748B,
+    black: #000000,
+    white: #FFFFFF,
+    danger-regular: #D70D0D,
+    disabled-regular: #B1B1B1,
+    warning-regular: #FFB800,
+    warning-light: #FDD368,
+    warning-dark: #E4A400,
+    success-regular: #02B74A,
+    success-light: #C0FCD8,
+    success-dark: #009C3F,
+    danger-dark: #D70D0D,
+    danger-light: #F8D0D0,
+    disabled-light: #E2E2E2,
+    disabled-dark: #575857,
+    information-regular: #3761EB,
+    information-light: #7393FF,
+    information-dark: #2145BC,
+    border-secondary: #FFFFFF,
+    unCommon: #FFFFFF
+);
+
+$color-palette:map.merge($color-palette , $color-palette-themes);
