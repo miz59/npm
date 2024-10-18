@@ -119,7 +119,7 @@ function laravelFramework() {
     if (fs.existsSync(mizDir)) {
         if(fs.existsSync(backupMizDir)){
             
-            fs.rmdirSync(backupMizDir ,{recursive:true , force:true}, (err)=>{
+            fs.rm(backupMizDir ,{recursive:true , force:true}, (err)=>{
                 console.log(err)
             });
         }
@@ -222,7 +222,7 @@ function reactFramework() {
     if (fs.existsSync(mizDir)) {
         if(fs.existsSync(backupMizDir)){
             
-            fs.rmdirSync(backupMizDir ,{recursive:true , force:true}, (err)=>{
+            fs.rm(backupMizDir ,{recursive:true , force:true}, (err)=>{
                 console.log(err)
             });
         }
@@ -330,7 +330,7 @@ function vueFramework() {
     if (fs.existsSync(mizDir)) {
         if(fs.existsSync(backupMizDir)){
             
-            fs.rmdirSync(backupMizDir ,{recursive:true , force:true}, (err)=>{
+            fs.rm(backupMizDir ,{recursive:true , force:true}, (err)=>{
                 console.log(err)
             });
         }
