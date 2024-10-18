@@ -55,6 +55,10 @@ function laravelFramework() {
         console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
     });
 
+    if (!fs.existsSync(mizDir)) {
+        fs.mkdirSync(mizDir, { recursive: true });
+    }
+    
     ncp(sassSourceDir, mizDir, function (err) {
         if (err) {
             return console.error('Error copying sass:', err);
@@ -154,6 +158,10 @@ function reactFramework() {
         console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
     });
 
+    if (!fs.existsSync(mizDir)) {
+        fs.mkdirSync(mizDir, { recursive: true });
+    }
+    
     ncp(sassSourceDir, mizDir, function (err) {
         if (err) {
             return console.error('Error copying sass:', err);
@@ -258,6 +266,10 @@ function vueFramework() {
         console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
     });
 
+    if (!fs.existsSync(mizDir)) {
+        fs.mkdirSync(mizDir, { recursive: true });
+    }
+    
     ncp(sassSourceDir, mizDir, function (err) {
         if (err) {
             return console.error('Error copying sass:', err);
