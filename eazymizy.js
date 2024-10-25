@@ -33,145 +33,7 @@ else {
 const copy = util.promisify(ncp);
 const copyFile = util.promisify(fs.copyFile);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function reactFramework() {
-    const assetsSourceDir = path.join(__dirname, 'assets');
-    const sassSourceDir = path.join(__dirname, 'sass');
-    const htmlComponentSourceDir = path.join(__dirname, 'html');
-    const mizMinFile = path.join(__dirname, 'miz-min.cjs');
-
-    const assetsFolder = 'src';
-    const sassFolder = 'src';
-    const framework = 'react';
-    const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
-    const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
-    const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
-    
-    const backupMizDir = path.join(sassDestinationDir , 'backup-miz');
-    const mizDir = path.join(sassDestinationDir , 'miz');
-
-    fs.mkdirSync(assetsDestinationDir, { recursive: true });
-    fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
-
-    
-
-    ncp(assetsSourceDir, assetsDestinationDir, function (err) {
-        if (err) {
-            return console.error('Error copying assets:', err);
-        }
-        console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
-    });
-
-    if (!fs.existsSync(mizDir)) {
-        fs.mkdirSync(mizDir, { recursive: true });
-    }
-    
-    ncp(sassSourceDir, mizDir, function (err) {
-        if (err) {
-            return console.error('Error copying sass:', err);
-        }
-        console.log(`Sass copied to ${sassFolder}/sass/miz folder successfully!`);
-    });
-
-    ncp(htmlComponentSourceDir, mizDir, function (err) {
-        if (err) {
-            return console.error('Error copying html:', err);
-        }
-        console.log(`Html copied to ${sassFolder}/html/miz folder successfully!`);
-    });
-
-    fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
-        if (err) {
-            return console.error('Error copying miz-min.cjs:', err);
-        }
-        console.log('miz-min.cjs copied to project root successfully!');
-    });
-
-    const filesToCopy = ['style.scss', '_layout.scss', '_components.scss'];
-    const sassDestinationRootDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
-
-    filesToCopy.forEach(file => {
-        const sourceFile = path.join(__dirname, file);
-        const destinationFile = path.join(sassDestinationRootDir, file);
-
-        fs.copyFile(sourceFile, destinationFile, (err) => {
-            if (err) {
-                return console.error(`Error copying ${file}:`, err);
-            }
-            console.log(`${file} copied to ${sassFolder}/sass folder successfully!`);
-        });
-    });
-
-    const pagesSourceDir = path.join(__dirname, 'pages');
-    const pagesDestinationDir = path.join(sassDestinationRootDir, 'pages');
-    fs.mkdirSync(pagesDestinationDir, { recursive: true });
-
-    ncp(pagesSourceDir, pagesDestinationDir, function (err) {
-        if (err) {
-            return console.error('Error copying pages:', err);
-        }
-    });
-
-    projectPackageJson.scripts = {
-        ...projectPackageJson.scripts,
-        "watch": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
-        "build": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
-        "watch-miz": "sass --watch --update --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
-        "build-miz": "sass --no-source-map --style=compressed " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
-        "build-miz-clean": "sass --no-source-map --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz-clean.css && node miz-min.cjs " + framework,
-    };
-
-    fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
-
-    if (fs.existsSync(mizDir)) {
-        if(fs.existsSync(backupMizDir)){
-            
-            fs.rm(backupMizDir ,{recursive:true , force:true}, (err)=>{
-                console.log(err)
-            });
-        }
-        fs.mkdirSync(backupMizDir, { recursive: true });        
-       
-        moveFiles(mizDir, backupMizDir);
-            
-    }else{
-        
-    }
-}
-
-function vueFramework() {
+async function vueFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
     const htmlComponentSourceDir = path.join(__dirname, 'html');
@@ -182,72 +44,87 @@ function vueFramework() {
     const framework = 'vue';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
-    const htmlComponentDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'html');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     
-    const backupMizDir = path.join(sassDestinationDir , 'backup-miz');
-    const mizDir = path.join(sassDestinationDir , 'miz');
+    const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
+    const mizDir = path.join(sassDestinationDir, 'miz');
 
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
-    
-
-    ncp(assetsSourceDir, assetsDestinationDir, function (err) {
-        if (err) {
-            return console.error('Error copying assets:', err);
-        }
-        console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
+    await new Promise((resolve, reject) => {
+        ncp(assetsSourceDir, assetsDestinationDir, (err) => {
+            if (err) {
+                return reject('Error copying assets: ' + err);
+            }
+            console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
+            resolve();
+        });
     });
 
     if (!fs.existsSync(mizDir)) {
         fs.mkdirSync(mizDir, { recursive: true });
     }
-    
-    ncp(sassSourceDir, mizDir, function (err) {
-        if (err) {
-            return console.error('Error copying sass:', err);
-        }
-        console.log(`Sass copied to ${sassFolder}/sass/miz folder successfully!`);
+
+    await new Promise((resolve, reject) => {
+        ncp(sassSourceDir, mizDir, (err) => {
+            if (err) {
+                return reject('Error copying sass: ' + err);
+            }
+            console.log(`Sass copied to ${sassFolder}/sass/miz folder successfully!`);
+            resolve();
+        });
     });
 
-    ncp(htmlComponentSourceDir, mizDir, function (err) {
-        if (err) {
-            return console.error('Error copying html:', err);
-        }
-        console.log(`Html copied to ${sassFolder}/html/miz folder successfully!`);
+    await new Promise((resolve, reject) => {
+        ncp(htmlComponentSourceDir, mizDir, (err) => {
+            if (err) {
+                return reject('Error copying html: ' + err);
+            }
+            console.log(`Html copied to ${sassFolder}/html/miz folder successfully!`);
+            resolve();
+        });
     });
 
-    fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
-        if (err) {
-            return console.error('Error copying miz-min.cjs:', err);
-        }
-        console.log('miz-min.cjs copied to project root successfully!');
+    await new Promise((resolve, reject) => {
+        fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
+            if (err) {
+                return reject('Error copying miz-min.cjs: ' + err);
+            }
+            console.log('miz-min.cjs copied to project root successfully!');
+            resolve();
+        });
     });
 
     const filesToCopy = ['style.scss', '_layout.scss', '_components.scss'];
     const sassDestinationRootDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
 
-    filesToCopy.forEach(file => {
+    for (const file of filesToCopy) {
         const sourceFile = path.join(__dirname, file);
         const destinationFile = path.join(sassDestinationRootDir, file);
 
-        fs.copyFile(sourceFile, destinationFile, (err) => {
-            if (err) {
-                return console.error(`Error copying ${file}:`, err);
-            }
-            console.log(`${file} copied to ${sassFolder}/sass folder successfully!`);
+        await new Promise((resolve, reject) => {
+            fs.copyFile(sourceFile, destinationFile, (err) => {
+                if (err) {
+                    return reject(`Error copying ${file}: ` + err);
+                }
+                console.log(`${file} copied to ${sassFolder}/sass folder successfully!`);
+                resolve();
+            });
         });
-    });
+    }
 
     const pagesSourceDir = path.join(__dirname, 'pages');
     const pagesDestinationDir = path.join(sassDestinationRootDir, 'pages');
     fs.mkdirSync(pagesDestinationDir, { recursive: true });
 
-    ncp(pagesSourceDir, pagesDestinationDir, function (err) {
-        if (err) {
-            return console.error('Error copying pages:', err);
-        }
+    await new Promise((resolve, reject) => {
+        ncp(pagesSourceDir, pagesDestinationDir, (err) => {
+            if (err) {
+                return reject('Error copying pages: ' + err);
+            }
+            resolve();
+        });
     });
 
     projectPackageJson.scripts = {
@@ -262,53 +139,17 @@ function vueFramework() {
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
 
     if (fs.existsSync(mizDir)) {
-        if(fs.existsSync(backupMizDir)){
-            
-            fs.rm(backupMizDir ,{recursive:true , force:true}, (err)=>{
-                console.log(err)
+        if (fs.existsSync(backupMizDir)) {
+            fs.rm(backupMizDir, { recursive: true, force: true }, (err) => {
+                console.log(err);
             });
         }
-        fs.mkdirSync(backupMizDir, { recursive: true });        
-       
-        moveFiles(mizDir, backupMizDir);
-            
-    }else{
-        
+        fs.mkdirSync(backupMizDir, { recursive: true });
+        await moveFiles(mizDir, backupMizDir);
     }
 
-
+    await mizban(assetsDestinationDir);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 async function reactFramework() {
@@ -437,8 +278,8 @@ async function laravelFramework() {
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
 
-    const assetsFolder = 'src';
-    const sassFolder = 'src';
+    const assetsFolder = 'public';
+    const sassFolder = 'resources';
     const framework = 'laravel';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
@@ -613,16 +454,6 @@ function moveFiles(srcDir, destDir) {
         });
     });
 }
-
-
-
-
-
-
-
-
-
-
 
 function copyDirectory(src, dest) {
     if (!fs.existsSync(dest)) {
