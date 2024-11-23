@@ -52,6 +52,16 @@ async function vueFramework() {
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
+    await new Promise((resolve, reject) => {
+        ncp(assetsSourceDir, assetsDestinationDir, (err) => {
+            if (err) {
+                return reject('Error copying assets: ' + err);
+            }
+            console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
+            resolve();
+        });
+    });
+
     if (fs.existsSync(backupMizDir)) {
         fs.rmSync(backupMizDir, { recursive: true, force: true });
         console.log('backup-miz folder removed successfully!');
@@ -158,6 +168,16 @@ async function reactFramework() {
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
+    await new Promise((resolve, reject) => {
+        ncp(assetsSourceDir, assetsDestinationDir, (err) => {
+            if (err) {
+                return reject('Error copying assets: ' + err);
+            }
+            console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
+            resolve();
+        });
+    });
+
     if (fs.existsSync(backupMizDir)) {
         fs.rmSync(backupMizDir, { recursive: true, force: true });
         console.log('backup-miz folder removed successfully!');
@@ -244,9 +264,6 @@ async function reactFramework() {
 
     await mizban(assetsDestinationDir);
 }
-
-
-
 
 async function laravelFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
@@ -267,6 +284,16 @@ async function laravelFramework() {
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
+    await new Promise((resolve, reject) => {
+        ncp(assetsSourceDir, assetsDestinationDir, (err) => {
+            if (err) {
+                return reject('Error copying assets: ' + err);
+            }
+            console.log(`Assets copied to ${assetsFolder}/assets folder successfully!`);
+            resolve();
+        });
+    });
+    
     if (fs.existsSync(backupMizDir)) {
         fs.rmSync(backupMizDir, { recursive: true, force: true });
         console.log('backup-miz folder removed successfully!');
@@ -352,73 +379,6 @@ async function laravelFramework() {
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
 
     await mizban(assetsDestinationDir);
-}
-
-
-
-function moveFiles(srcDir, destDir) {
-    if (!fs.existsSync(destDir)) {
-        fs.mkdirSync(destDir, { recursive: true });
-    }
-
-    return new Promise((resolve, reject) => {
-        fs.readdir(srcDir, (err, files) => {
-            if (err) {
-                console.error('Error reading source directory:', err);
-                return reject(err);
-            }
-
-            let movePromises = files.map(file => {
-                return new Promise((resolve, reject) => {
-                    const srcPath = path.join(srcDir, file);
-                    const destPath = path.join(destDir, file);
-
-                    fs.stat(srcPath, (err, stats) => {
-                        if (err) {
-                            console.error('Error getting file stats:', err);
-                            return reject(err);
-                        }
-
-                    
-                        if (stats.isDirectory()) {
-                        
-                            moveFiles(srcPath, destPath);
-                        
-                            fs.rm(srcPath, { recursive: true, force: true }, err => {
-                                if (err) {
-                                    console.error('Error deleting directory:', err);
-                                    reject(err);
-                                } else {
-                                    console.log(`Moved directory ${file} to ${destDir}`);
-                                    resolve();
-                                }
-                            });
-                        } else {
-                            fs.rename(srcPath, destPath, err => {
-                                if (err) {
-                                    console.error('Error moving file:', err);
-                                    reject(err);
-                                } else {
-                                    console.log(`Moved file ${file} to ${destDir}`);
-                                    resolve();
-                                }
-                            });
-                        }
-                    });
-                });
-            });
-
-            Promise.all(movePromises)
-                .then(() => {
-                    console.log('All files and directories moved successfully.');
-                    resolve();
-                })
-                .catch((error) => {
-                    console.error('Error moving some files or directories:', error);
-                    reject(error);
-                });
-        });
-    });
 }
 
 function copyDirectory(src, dest) {
