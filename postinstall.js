@@ -2,17 +2,15 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 
-
-
 const projectPackageJsonPath = path.join(process.cwd(), '..', '..', 'package.json');
-
 
 const projectPackageJson = require(projectPackageJsonPath);
 
+projectPackageJson.dependencies = projectPackageJson.dependencies || {};
 
 projectPackageJson.scripts = {
     ...projectPackageJson.scripts,
-    "miz": "node node_modules/miz-59/eazymizy.js",
+    "miz": "cd node_modules/miz-59 && node postinstall.js && cd .. && cd .. && npm update && node node_modules/miz-59/eazymizy.js",
 };
 
 projectPackageJson.dependencies = {
@@ -24,7 +22,6 @@ projectPackageJson.dependencies = {
 };
 
 fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
-
 
 const packages = ['ncp', 'fa', 'path'];
 
