@@ -254,7 +254,7 @@ async function laravelFramework() {
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
 
-    const assetsFolder = 'publish';
+    const assetsFolder = 'public';
     const sassFolder = 'resources';
     const framework = 'laravel';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
