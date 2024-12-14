@@ -3,27 +3,42 @@ const path = require('path');
 
 const variable = process.argv[2];
 
-
-
 let textFilePath = '';
 let cssFilePath = '';
 let outputFilePath = '';
 let fontFaceFilePath = '';
+let resetSassFile = '';
 
-if(variable == 'laravel'){
+if (variable === 'laravel') {
     textFilePath = path.join(__dirname, 'classes.txt');
-    cssFilePath = path.join(__dirname,'public' , 'assets', 'css', 'miz-clean.css');
-    outputFilePath = path.join(__dirname, 'public' ,'assets', 'css', 'miz.min.css');
-    fontFaceFilePath = path.join(__dirname, 'public' , 'assets', 'css', 'font-faces.css');
+    cssFilePath = path.join(__dirname, 'public', 'assets', 'css', 'miz-clean.css');
+    outputFilePath = path.join(__dirname, 'public', 'assets', 'css', 'miz.min.css');
+    fontFaceFilePath = path.join(__dirname, 'public', 'assets', 'css', 'font-faces.css');
+    resetSassFile = path.join(__dirname, 'resources', 'sass', 'config', '_reset.scss');
 }
-else if(variable == 'react'){
+else if (variable === 'react') {
     textFilePath = path.join(__dirname, 'classes.txt');
-    cssFilePath = path.join(__dirname,'src' , 'assets', 'css', 'miz-clean.css');
-    outputFilePath = path.join(__dirname, 'src' ,'assets', 'css', 'miz.min.css');
-    fontFaceFilePath = path.join(__dirname, 'src' , 'assets', 'css', 'font-faces.css');
+    cssFilePath = path.join(__dirname, 'src', 'assets', 'css', 'miz-clean.css');
+    outputFilePath = path.join(__dirname, 'src', 'assets', 'css', 'miz.min.css');
+    fontFaceFilePath = path.join(__dirname, 'src', 'assets', 'css', 'font-faces.css');
+    resetSassFile = path.join(__dirname, 'src', 'sass', 'config', '_reset.scss');
+}
+else if (variable === 'vue') {
+    textFilePath = path.join(__dirname, 'classes.txt');
+    cssFilePath = path.join(__dirname, 'src', 'assets', 'css', 'miz-clean.css');
+    outputFilePath = path.join(__dirname, 'src', 'assets', 'css', 'miz.min.css');
+    fontFaceFilePath = path.join(__dirname, 'src', 'assets', 'css', 'font-faces.css');
+    resetSassFile = path.join(__dirname, 'src', 'sass', 'config', '_reset.scss');
+}
+else {
+    textFilePath = path.join(__dirname, 'classes.txt');
+    cssFilePath = path.join(__dirname, 'assets', 'css', 'miz-clean.css');
+    outputFilePath = path.join(__dirname, 'assets', 'css', 'miz.min.css');
+    fontFaceFilePath = path.join(__dirname, 'assets', 'css', 'font-faces.css');
+    resetSassFile = path.join(__dirname, 'sass', 'miz', 'sass', 'config', '_reset.scss');
 }
 
-const extensions = ['.html', '.blade.php','.js' , '.jsx' , 'vue'];
+const extensions = ['.html', '.blade.php', '.js', '.jsx', '.vue'];
 
 const classPatterns = [
     /class\s*=\s*'([^']+)'/g,
@@ -32,11 +47,39 @@ const classPatterns = [
     /className\s*=\s*"([^"]+)"/g,
 ];
 
+function readIgnoreFile() {
+    const ignoreFilePath = path.join(__dirname, '.mizignore');
+
+    if (!fs.existsSync(ignoreFilePath)) {
+        return [];
+    }
+
+    try {
+        const data = fs.readFileSync(ignoreFilePath, 'utf8');
+        return data
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0);
+    } catch (err) {
+        console.error('Error reading .mizignore file:', err);
+        return [];
+    }
+}
+
 function findAllFiles(directory) {
     let filesToProcess = [];
+    const ignoredPaths = readIgnoreFile().map(ignorePath => path.resolve(ignorePath));
+
     const files = fs.readdirSync(directory);
+
     files.forEach(file => {
         const filePath = path.join(directory, file);
+        const resolvedPath = path.resolve(filePath);
+
+        if (ignoredPaths.some(ignoredPath => resolvedPath.startsWith(ignoredPath))) {
+            return;
+        }
+
         const stat = fs.statSync(filePath);
         if (stat.isDirectory()) {
             filesToProcess = filesToProcess.concat(findAllFiles(filePath));
@@ -46,7 +89,20 @@ function findAllFiles(directory) {
             }
         }
     });
+
     return filesToProcess;
+}
+
+function extractFontFacesFromCSS(cssData) {
+    const fontFaceRegex = /@font-face\s*{[^}]*}/g;
+    let match;
+    let fontFaces = [];
+
+    while ((match = fontFaceRegex.exec(cssData)) !== null) {
+        fontFaces.push(match[0]);
+    }
+
+    return fontFaces.join('\n');
 }
 
 function extractClassesFromFiles(files) {
@@ -69,19 +125,20 @@ function extractClassesFromFiles(files) {
     return classes;
 }
 
-function extractFontFacesFromCSS(cssData) {
-    const fontFaceRegex = /@font-face\s*{[^}]*}/g;
-    let match;
-    let fontFaces = [];
-
-    while ((match = fontFaceRegex.exec(cssData)) !== null) {
-        fontFaces.push(match[0]);
+function shouldAddResetCss() {
+    // بررسی وجود متغیر $reset:true در فایل Sass
+    if (fs.existsSync(resetSassFile)) {
+        const sassData = fs.readFileSync(resetSassFile, 'utf8');
+        const resetPattern = /\$reset\s*:\s*(true|false)\s*;/;
+        const match = sassData.match(resetPattern);
+        if (match && match[1] === 'true') {
+            return true;
+        }
     }
-
-    return fontFaces.join('\n');
+    return false;
 }
 
-function addResetCss(){
+function addResetCss() {
     const resetCss = 'body,p,h1,h2,h3,h4,h5,h6,hr{margin:0px;}h1,h2,h3,h4,h5,h6{font-weight: normal;}li{list-style: none;}button{border:none;}ul,li{padding:0px;margin:0px;}a{text-decoration: none;color:black;}';
     const filePath = outputFilePath;
 
@@ -100,7 +157,9 @@ function addResetCss(){
 }
 
 function processCssFile() {
-    addResetCss();
+    if (shouldAddResetCss()) {
+        addResetCss();
+    }
 
     const files = findAllFiles(__dirname);
     const classes = extractClassesFromFiles(files);
