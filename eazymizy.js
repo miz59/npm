@@ -39,7 +39,6 @@ async function vueFramework() {
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
-    const contentMizignoreFile = `./${sassFolder}`;
 
     const assetsFolder = 'src';
     const sassFolder = 'src';
@@ -48,6 +47,7 @@ async function vueFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
+	const contentMizignoreFile = `./${sassFolder}/sass/miz`;
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -177,7 +177,6 @@ async function reactFramework() {
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
-    const contentMizignoreFile = `./${sassFolder}`;
 
     const assetsFolder = 'src';
     const sassFolder = 'src';
@@ -186,6 +185,7 @@ async function reactFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
+	const contentMizignoreFile = `./${sassFolder}/sass/miz`;
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -315,7 +315,6 @@ async function laravelFramework() {
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
-    const contentMizignoreFile = `./${sassFolder}`;
 
     const assetsFolder = 'public';
     const sassFolder = 'resources';
@@ -324,6 +323,7 @@ async function laravelFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
+	const contentMizignoreFile = `./${sassFolder}/sass/miz`;
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
