@@ -1,6 +1,6 @@
 {
   "name": "miz-59",
-  "version": "1.20.16",
+  "version": "1.20.17",
   "description": "**MIZ** is a lightweight, powerful toolbox designed to make web development easier, especially for those familiar with Bootstrap. With MIZ, you can quickly start building responsive layouts with minimal effort and file size. Customize your projects with ease using our provided Sass files and configuration options.",
   "main": "index.js",
   "scripts": {

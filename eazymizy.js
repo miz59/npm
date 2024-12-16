@@ -38,6 +38,8 @@ async function vueFramework() {
     const sassSourceDir = path.join(__dirname, 'sass');
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
+    const mizignoreFile = path.join(__dirname, '.mizignore');
+    const contentMizignoreFile = `./${sassFolder}`;
 
     const assetsFolder = 'src';
     const sassFolder = 'src';
@@ -45,6 +47,7 @@ async function vueFramework() {
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
+    const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -105,6 +108,25 @@ async function vueFramework() {
         fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
             if (err) return reject('Error copying miz-min.cjs: ' + err);
             console.log('miz-min.cjs copied to project root successfully!');
+            resolve();
+        });
+    });
+
+    await new Promise((resolve, reject) => {
+        fs.copyFile(mizignoreFile, mizignoreDestinationFile, (err) => {
+            if (err) return reject('Error copying miz-min.cjs: ' + err);
+            console.log('.mizignore copied to project root successfully!');
+            resolve();
+        });
+    });
+
+    await new Promise((resolve, reject) => {
+        fs.appendFile(mizMinDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+            if (err) {
+                reject('An error occurred while adding text to the file: ' + err);
+                return;
+            }
+            console.log('New text has been successfully added to the file!');
             resolve();
         });
     });
@@ -154,6 +176,8 @@ async function reactFramework() {
     const sassSourceDir = path.join(__dirname, 'sass');
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
+    const mizignoreFile = path.join(__dirname, '.mizignore');
+    const contentMizignoreFile = `./${sassFolder}`;
 
     const assetsFolder = 'src';
     const sassFolder = 'src';
@@ -161,6 +185,7 @@ async function reactFramework() {
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
+    const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -225,6 +250,25 @@ async function reactFramework() {
         });
     });
 
+    await new Promise((resolve, reject) => {
+        fs.copyFile(mizignoreFile, mizignoreDestinationFile, (err) => {
+            if (err) return reject('Error copying miz-min.cjs: ' + err);
+            console.log('.mizignore copied to project root successfully!');
+            resolve();
+        });
+    });
+
+    await new Promise((resolve, reject) => {
+        fs.appendFile(mizMinDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+            if (err) {
+                reject('An error occurred while adding text to the file: ' + err);
+                return;
+            }
+            console.log('New text has been successfully added to the file!');
+            resolve();
+        });
+    });
+
     const filesToCopy = ['style.scss', '_layout.scss', '_components.scss'];
     const sassDestinationRootDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     for (const file of filesToCopy) {
@@ -270,6 +314,8 @@ async function laravelFramework() {
     const sassSourceDir = path.join(__dirname, 'sass');
     const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
+    const mizignoreFile = path.join(__dirname, '.mizignore');
+    const contentMizignoreFile = `./${sassFolder}`;
 
     const assetsFolder = 'public';
     const sassFolder = 'resources';
@@ -277,6 +323,7 @@ async function laravelFramework() {
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${assetsFolder}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
+    const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -337,6 +384,25 @@ async function laravelFramework() {
         fs.copyFile(mizMinFile, mizMinDestinationFile, (err) => {
             if (err) return reject('Error copying miz-min.cjs: ' + err);
             console.log('miz-min.cjs copied to project root successfully!');
+            resolve();
+        });
+    });
+
+    await new Promise((resolve, reject) => {
+        fs.copyFile(mizignoreFile, mizignoreDestinationFile, (err) => {
+            if (err) return reject('Error copying miz-min.cjs: ' + err);
+            console.log('.mizignore copied to project root successfully!');
+            resolve();
+        });
+    });
+
+    await new Promise((resolve, reject) => {
+        fs.appendFile(mizMinDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+            if (err) {
+                reject('An error occurred while adding text to the file: ' + err);
+                return;
+            }
+            console.log('New text has been successfully added to the file!');
             resolve();
         });
     });
