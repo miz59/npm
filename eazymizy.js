@@ -397,7 +397,7 @@ async function laravelFramework() {
     });
 
     await new Promise((resolve, reject) => {
-        fs.appendFile(mizMinDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+        fs.appendFile(mizignoreDestinationFile, `\n${contentMizignoreFile}`, (err) => {
             if (err) {
                 reject('An error occurred while adding text to the file: ' + err);
                 return;
