@@ -47,7 +47,7 @@ async function vueFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = [`./${sassFolder}/sass/miz`, `./${sassFolder}/sass/backup-miz`];
+	const contentMizignoreFile = [`./node_modules`, `./${sassFolder}/sass/miz`, `./${sassFolder}/sass/backup-miz`];
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -120,17 +120,21 @@ async function vueFramework() {
         });
     });
 
-    await new Promise((resolve, reject) => {
+    if (Array.isArray(contentMizignoreFile) && contentMizignoreFile.length > 0) {
         const contentToAppend = contentMizignoreFile.join('\n') + '\n';
-        fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
-            if (err) {
-                reject('An error occurred while adding text to the file: ' + err);
-                return;
-            }
-            console.log('New text has been successfully added to the file!');
-            resolve();
+        await new Promise((resolve, reject) => {
+            fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
+                if (err) {
+                    reject('An error occurred while adding text to the file: ' + err);
+                    return;
+                }
+                console.log('New text has been successfully added to the file!');
+                resolve();
+            });
         });
-    });
+    } else {
+        throw new TypeError('contentMizignoreFile must be a non-empty array.');
+    }
 
     const filesToCopy = ['style.scss', '_layout.scss', '_components.scss'];
     const sassDestinationRootDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
@@ -186,7 +190,7 @@ async function reactFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = `./${sassFolder}/sass/miz`;
+	const contentMizignoreFile = [`./node_modules`, `./${sassFolder}/sass/miz`, `./${sassFolder}/sass/backup-miz`];
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -259,17 +263,21 @@ async function reactFramework() {
         });
     });
 
-    await new Promise((resolve, reject) => {
+    if (Array.isArray(contentMizignoreFile) && contentMizignoreFile.length > 0) {
         const contentToAppend = contentMizignoreFile.join('\n') + '\n';
-        fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
-            if (err) {
-                reject('An error occurred while adding text to the file: ' + err);
-                return;
-            }
-            console.log('New text has been successfully added to the file!');
-            resolve();
+        await new Promise((resolve, reject) => {
+            fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
+                if (err) {
+                    reject('An error occurred while adding text to the file: ' + err);
+                    return;
+                }
+                console.log('New text has been successfully added to the file!');
+                resolve();
+            });
         });
-    });
+    } else {
+        throw new TypeError('contentMizignoreFile must be a non-empty array.');
+    }
 
     const filesToCopy = ['style.scss', '_layout.scss', '_components.scss'];
     const sassDestinationRootDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
@@ -325,7 +333,7 @@ async function laravelFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = `./${sassFolder}/sass/miz`;
+	const contentMizignoreFile = [`./node_modules`, `./${sassFolder}/sass/miz`, `./${sassFolder}/sass/backup-miz`];
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -398,17 +406,21 @@ async function laravelFramework() {
         });
     });
 
-    await new Promise((resolve, reject) => {
+    if (Array.isArray(contentMizignoreFile) && contentMizignoreFile.length > 0) {
         const contentToAppend = contentMizignoreFile.join('\n') + '\n';
-        fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
-            if (err) {
-                reject('An error occurred while adding text to the file: ' + err);
-                return;
-            }
-            console.log('New text has been successfully added to the file!');
-            resolve();
+        await new Promise((resolve, reject) => {
+            fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
+                if (err) {
+                    reject('An error occurred while adding text to the file: ' + err);
+                    return;
+                }
+                console.log('New text has been successfully added to the file!');
+                resolve();
+            });
         });
-    });
+    } else {
+        throw new TypeError('contentMizignoreFile must be a non-empty array.');
+    }
 
     const filesToCopy = ['style.scss', '_layout.scss', '_components.scss'];
     const sassDestinationRootDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
