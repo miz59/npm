@@ -47,7 +47,7 @@ async function vueFramework() {
     const sassDestinationDir = path.join(__dirname, '..', '..', `${sassFolder}`, 'sass');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = `./${sassFolder}/sass/miz`;
+	const contentMizignoreFile = [`./${sassFolder}/sass/miz`, `./${sassFolder}/sass/backup-miz`];
 
     const backupMizDir = path.join(sassDestinationDir, 'backup-miz');
     const mizDir = path.join(sassDestinationDir, 'miz');
@@ -121,7 +121,8 @@ async function vueFramework() {
     });
 
     await new Promise((resolve, reject) => {
-        fs.appendFile(mizMinDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+        const contentToAppend = contentMizignoreFile.join('\n') + '\n';
+        fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
             if (err) {
                 reject('An error occurred while adding text to the file: ' + err);
                 return;
@@ -259,7 +260,8 @@ async function reactFramework() {
     });
 
     await new Promise((resolve, reject) => {
-        fs.appendFile(mizMinDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+        const contentToAppend = contentMizignoreFile.join('\n') + '\n';
+        fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
             if (err) {
                 reject('An error occurred while adding text to the file: ' + err);
                 return;
@@ -397,7 +399,8 @@ async function laravelFramework() {
     });
 
     await new Promise((resolve, reject) => {
-        fs.appendFile(mizignoreDestinationFile, `\n${contentMizignoreFile}`, (err) => {
+        const contentToAppend = contentMizignoreFile.join('\n') + '\n';
+        fs.appendFile(mizignoreDestinationFile, contentToAppend, (err) => {
             if (err) {
                 reject('An error occurred while adding text to the file: ' + err);
                 return;
