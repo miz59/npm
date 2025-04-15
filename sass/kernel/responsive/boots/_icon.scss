@@ -1,0 +1,5 @@
+@use '../../../structure/icon';
+@use "../functions/responsive";
+
+
+$icon-size-responsive : responsive.generate-typography-size-classes(icon.$icon-size,icon.$icon-prefix);

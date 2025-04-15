@@ -1,0 +1,19 @@
+@use "sass:list";
+@use "../../themes/miz/config/dims";
+@use "functions";
+
+@mixin generate-total-style-z-index($map-config , $property){
+    $class-name-list:functions.generate-class-name-list($map-config , $property);
+    $value-list:functions.generate-value($map-config);
+    $map:();
+    $list:();
+    @for $i from 1 through list.length($class-name-list){
+        $class-item:list.nth($class-name-list , $i);
+        $value:list.nth($value-list , $i);
+        #{$class-item}{
+            #{$property}:$value;
+        }
+    }
+}
+
+@include generate-total-style-z-index(dims.$conf-z-index , z-index);

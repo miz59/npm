@@ -1,0 +1,206 @@
+@use "sass:list";
+@use "sass:string";
+@use "sass:map";
+@use 'typography';
+@use 'icon';
+@use "../functions/space";
+@use "../layouts/dims";
+@use "../layouts/displays";
+@use "../layouts/flex";
+@use "../layouts/grid";
+@use "../layouts/orders";
+@use "../../../config/responsive" as *;
+
+
+$totalist : displays.$display-values,flex.$flex-cols,dims.$width-list,dims.$height-list,flex.$flex-type,orders.$flex-orders,flex.$flex-grows,grid.$g,space.$p,space.$m,space.$gaps,typography.$font-size-responsive,typography.$generate-text-transform,typography.$generate-text-align,typography.$generate-text-decoration-line,typography.$generate-text-decoration-style,typography.$generate-font-style,typography.$letter-space,icon.$icon-size-responsive;
+
+@function get-greatest-breakpoint(){
+    $max-size:0;
+    @each $key , $value in $break-points{
+        @if map.get($break-points, $key) > $max-size{
+            $max-size : map.get($break-points, $key);
+        }
+    }
+    @return $max-size;
+}
+
+@mixin generate-header-horizontally(){
+    @for $i from 1 through list.length($header-space-horizontally){
+        $break-point-values:map.values($break-points);
+        $max-width-values:list.nth($break-point-values,$i);
+        $space-value:list.nth($header-space-horizontally,$i);
+        @if get-greatest-breakpoint()==$max-width-values{
+            .header{
+                padding-left: $space-value;
+                padding-right:$space-value;
+            }
+        }
+        @else{
+            @media screen and (max-width:$max-width-values){
+                .header{
+                    padding-left: $space-value;
+                    padding-right:$space-value;
+                }
+            }
+        }
+    }
+}
+@mixin generate-boxed-horizontally(){
+    @for $i from 1 through list.length($boxed-space-horizontally){
+        $break-point-values:map.values($break-points);
+        $max-width-values:list.nth($break-point-values,$i);
+        $space-value:list.nth($boxed-space-horizontally,$i);
+        $max-width:get-greatest-breakpoint();
+        @if get-greatest-breakpoint()==$max-width-values{
+            .section{
+                padding-left: $space-value;
+                padding-right:$space-value;
+            }
+        }
+        @else{
+            @media screen and (max-width:$max-width-values){
+                .section{
+                    padding-left: $space-value;
+                    padding-right:$space-value;
+                }
+            }
+        }
+    }
+}
+@mixin generate-boxed-vertically(){
+    @for $i from 1 through list.length($boxed-space-vertically){
+        $break-point-values:map.values($break-points);
+        $max-width-values:list.nth($break-point-values,$i);
+        $space-value:list.nth($boxed-space-vertically,$i);
+        @if get-greatest-breakpoint()==$max-width-values{
+            .section{
+                padding-top: $space-value;
+                padding-bottom:$space-value;
+            }
+        }
+        @else{
+            @media screen and (max-width:$max-width-values){
+                .section{
+                    padding-top: $space-value;
+                    padding-bottom:$space-value;
+                }
+            }
+        }
+    }
+}
+
+@include generate-header-horizontally();
+@include generate-boxed-horizontally();
+@include generate-boxed-vertically();
+
+
+
+
+.section.wide{
+    padding-right:0px !important;
+    padding-left: 0px !important;
+}
+@function check-config-count($totalist-item){
+    @if list.length(list.nth($totalist,$totalist-item))!=0{
+        @return true;
+    }
+    @return false;
+}
+
+@mixin generate-classes($value){
+    @for $i from 1 through list.length($totalist){
+        @for $j from 1 through list.length(list.nth($totalist,$i)){
+            @include generate-style-property($i,$j,$value);
+        }
+    }
+}
+
+@function break-point($class-name){
+    $result:();
+    $i:1;
+    @each $key , $value in $break-points{
+        @if string.index($class-name , $key) != null{
+            $result:$value;
+            @return $value;
+        }
+        @if ($i == 1){
+            $result:$value;
+        }
+        $i:$i+1;
+    }
+    @return $result;
+}
+@function str-replace($string, $search, $replace: '') {
+    $index: string.index($string, $search);
+  
+    @if ($index){
+        @return string.slice($string, 1, $index - 1) + $replace + str-replace(string.slice($string, $index + string.length($search)), $search, $replace);
+    }
+  
+    @return $string;
+}
+
+@mixin generate-style-property($totalist-item,$total-list-member-item,$break-point-value){
+    $total-list-member:list.nth($totalist,$totalist-item);
+    @if (check-config-count($totalist-item)){
+        $class-name:map.get(list.nth($total-list-member,$total-list-member-item),className);
+        $class-name-greatest : str-replace($class-name,'-xxl');
+
+        $result : ();
+        @each $item1 in $class-name{
+            @each $item2 in $class-name-greatest{
+                @if ($item1 != $item2){
+                    $result : $item2;
+                }
+            }
+        }
+
+        $property-keys:map.get(list.nth($total-list-member,$total-list-member-item),propertyKeys);
+        $property-break-point:break-point($class-name);
+        $property-values:map.get(list.nth($total-list-member,$total-list-member-item),propertyValues);
+        $property-list:($property-keys,$property-values);
+        
+        @if($break-point-value==$property-break-point){
+            @if ($result != ()){
+                #{$result}{
+                    @for $k from 1 through list.length($property-keys){
+                        #{list.nth(list.nth($property-list,1),$k)}: list.nth(list.nth($property-list,2),$k);
+                    }
+                }
+            }
+            
+            #{$class-name}{
+                @for $k from 1 through list.length($property-keys){
+                    #{list.nth(list.nth($property-list,1),$k)}: list.nth(list.nth($property-list,2),$k);
+                }
+            }
+        }
+    }
+}
+
+@function get-greatest-breakpoint-key(){
+    $max-size-key:"";
+    $max-size:0;
+    @each $key , $value in $break-points{
+        @if map.get($break-points, $key) > $max-size{
+            $max-size : map.get($break-points, $key);
+            $max-size-key: $key;
+        }
+    }
+    @return $max-size-key;
+}
+@mixin check-break-point(){
+    @each $key , $value in $break-points{
+        $max-break-point:get-greatest-breakpoint();
+        $max-break-point-key: get-greatest-breakpoint-key();
+        @if($value != $max-break-point){
+            @media screen and (max-width : $value) {
+                @include generate-classes($value);
+            }
+        }  
+        @else{
+            @include generate-classes($value);
+        } 
+    }
+}
+@include check-break-point();

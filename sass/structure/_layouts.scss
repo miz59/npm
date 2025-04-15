@@ -1,0 +1,38 @@
+.section{
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+.container{
+    display:flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    box-sizing: border-box;
+}
+.block{
+    display:flex;
+    flex-direction: row;
+    justify-content: start;
+    align-items: start;
+    box-sizing: border-box;
+}
+.div{
+    display:flex;
+    box-sizing: border-box;
+}
+.rtl{
+    direction:rtl;
+}
+.ltr{
+    direction: ltr;
+}
+.border-box{
+    box-sizing: border-box;
+}
+.content-box{
+    box-sizing: content-box;
+}
