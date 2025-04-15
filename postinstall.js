@@ -15,7 +15,7 @@ projectPackageJson.scripts = {
 
 projectPackageJson.dependencies = {
     ...projectPackageJson.dependencies,
-    "sass": "1.77.8",
+    "sass": "^1.77.8",
     "ncp": "^2.0.0",
     "fs": "^0.0.1-security",
     "path": "^0.12.7"

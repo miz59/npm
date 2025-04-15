@@ -164,8 +164,8 @@ async function vueFramework() {
 
     projectPackageJson.scripts = {
         ...projectPackageJson.scripts,
-        "watch": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
-        "build": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
+        "watch-sass": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
+        "build-sass": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
         "watch-miz": "sass --watch --update --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
         "build-miz": "sass --no-source-map --style=compressed " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
         "build-miz-clean": "sass --no-source-map --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz-clean.css && node miz-min.cjs " + framework,
@@ -307,8 +307,8 @@ async function reactFramework() {
 
     projectPackageJson.scripts = {
         ...projectPackageJson.scripts,
-        "watch": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
-        "build": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
+        "watch-sass": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
+        "build-sass": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
         "watch-miz": "sass --watch --update --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
         "build-miz": "sass --no-source-map --style=compressed " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
         "build-miz-clean": "sass --no-source-map --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz-clean.css && node miz-min.cjs " + framework,
@@ -450,8 +450,8 @@ async function laravelFramework() {
 
     projectPackageJson.scripts = {
         ...projectPackageJson.scripts,
-        "watch": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
-        "build": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
+        "watch-sass": "sass --watch --update --style=expanded " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.css",
+        "build-sass": "sass --no-source-map --style=compressed " + sassFolder + "/sass/style.scss:" + assetsFolder + "/assets/css/style.min.css",
         "watch-miz": "sass --watch --update --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
         "build-miz": "sass --no-source-map --style=compressed " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz.min.css",
         "build-miz-clean": "sass --no-source-map --style=expanded " + sassFolder + "/sass/miz/_index.scss:" + assetsFolder + "/assets/css/miz-clean.css && node miz-min.cjs " + framework,
