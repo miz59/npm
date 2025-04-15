@@ -1,8 +1,0 @@
-@use "sass:map";
-
-@function get-color($key){
-
-    $code:map.get($color-palette,$key);
-    
-    @return $code;
-}
