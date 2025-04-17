@@ -10,11 +10,13 @@ let fontFaceFilePath = '';
 let resetSassFile = '';
 
 if (variable === 'laravel') {
+    const staticDir = 'public';
+    const stylesSourceDir = 'resources';
     textFilePath = path.join(__dirname, 'classes.txt');
-    cssFilePath = path.join(__dirname, 'public', 'assets', 'css', 'miz-clean.css');
-    outputFilePath = path.join(__dirname, 'public', 'assets', 'css', 'miz.min.css');
-    fontFaceFilePath = path.join(__dirname, 'public', 'assets', 'css', 'font-faces.css');
-    resetSassFile = path.join(__dirname, 'resources', 'sass', 'config', '_reset.scss');
+    cssFilePath = path.join(__dirname, `${staticDir}`, 'assets', 'css', 'miz-clean.css');
+    outputFilePath = path.join(__dirname, `${staticDir}`, 'assets', 'css', 'miz.min.css');
+    fontFaceFilePath = path.join(__dirname, `${staticDir}`, 'assets', 'css', 'font-faces.css');
+    resetSassFile = path.join(__dirname, `${stylesSourceDir}`, 'sass', 'config', '_reset.scss');
 }
 else if (variable === 'react') {
     textFilePath = path.join(__dirname, 'classes.txt');
@@ -126,7 +128,6 @@ function extractClassesFromFiles(files) {
 }
 
 function shouldAddResetCss() {
-    // بررسی وجود متغیر $reset:true در فایل Sass
     if (fs.existsSync(resetSassFile)) {
         const sassData = fs.readFileSync(resetSassFile, 'utf8');
         const resetPattern = /\$reset\s*:\s*(true|false)\s*;/;
