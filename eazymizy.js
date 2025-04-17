@@ -491,6 +491,7 @@ async function laravelFramework() {
 
     await mizban(assetsDestinationDir);
 }
+
 function copyDirectory(src, dest) {
     if (!fs.existsSync(dest)) {
         fs.mkdirSync(dest, { recursive: true });
