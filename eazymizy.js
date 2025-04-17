@@ -190,7 +190,6 @@ async function reactFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
     const themesSourceDir = path.join(__dirname, 'themes');
-    const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
 
@@ -206,9 +205,13 @@ async function reactFramework() {
 
     const backupMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'backup-miz');
     const mizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
+    const themesMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
+    const sassMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'sass');
 
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(sassDestinationDir, { recursive: true });
+    fs.mkdirSync(themesMizDir, { recursive: true });
+    fs.mkdirSync(sassMizDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
     await new Promise((resolve, reject) => {
@@ -250,7 +253,7 @@ async function reactFramework() {
     }
 
     await new Promise((resolve, reject) => {
-        ncp(sassSourceDir, mizDir, (err) => {
+        ncp(sassSourceDir, sassMizDir, (err) => {
             if (err) return reject('Error copying sass: ' + err);
             console.log('Sass files copied to miz directory successfully!');
             resolve();
@@ -258,17 +261,9 @@ async function reactFramework() {
     });
     
     await new Promise((resolve, reject) => {
-        ncp(themesSourceDir, mizDir, (err) => {
+        ncp(themesSourceDir, themesMizDir, (err) => {
             if (err) return reject('Error copying sass: ' + err);
             console.log('Themes files copied to miz directory successfully!');
-            resolve();
-        });
-    });
-
-    await new Promise((resolve, reject) => {
-        ncp(htmlComponentSourceDir, mizDir, (err) => {
-            if (err) return reject('Error copying HTML: ' + err);
-            console.log('HTML components copied to miz directory successfully!');
             resolve();
         });
     });
@@ -348,7 +343,6 @@ async function laravelFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
     const themesSourceDir = path.join(__dirname, 'themes');
-    const htmlComponentSourceDir = path.join(__dirname, 'html');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
 
@@ -364,9 +358,13 @@ async function laravelFramework() {
 
     const backupMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'backup-miz');
     const mizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
+    const themesMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
+    const sassMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'sass');
 
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(sassDestinationDir, { recursive: true });
+    fs.mkdirSync(themesMizDir, { recursive: true });
+    fs.mkdirSync(sassMizDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
     await new Promise((resolve, reject) => {
@@ -408,7 +406,7 @@ async function laravelFramework() {
     }
 
     await new Promise((resolve, reject) => {
-        ncp(sassSourceDir, mizDir, (err) => {
+        ncp(sassSourceDir, sassMizDir, (err) => {
             if (err) return reject('Error copying sass: ' + err);
             console.log('Sass files copied to miz directory successfully!');
             resolve();
@@ -416,17 +414,9 @@ async function laravelFramework() {
     });
     
     await new Promise((resolve, reject) => {
-        ncp(themesSourceDir, mizDir, (err) => {
+        ncp(themesSourceDir, themesMizDir, (err) => {
             if (err) return reject('Error copying sass: ' + err);
             console.log('Themes files copied to miz directory successfully!');
-            resolve();
-        });
-    });
-
-    await new Promise((resolve, reject) => {
-        ncp(htmlComponentSourceDir, mizDir, (err) => {
-            if (err) return reject('Error copying HTML: ' + err);
-            console.log('HTML components copied to miz directory successfully!');
             resolve();
         });
     });
@@ -501,7 +491,6 @@ async function laravelFramework() {
 
     await mizban(assetsDestinationDir);
 }
-
 function copyDirectory(src, dest) {
     if (!fs.existsSync(dest)) {
         fs.mkdirSync(dest, { recursive: true });
