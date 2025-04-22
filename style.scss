@@ -1,5 +1,5 @@
-@use "../miz/config"; 
-@use "../miz/global-functions"; 
+@use "../miz/sass/config"; 
+@use "../miz/sass/global-functions"; 
 @forward "./layout"; 
 @forward "./components"; 
 @forward "./pages";
