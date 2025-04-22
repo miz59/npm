@@ -183,7 +183,7 @@ async function vueFramework() {
 
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
 
-    await mizban(assetsDestinationDir);
+    // await mizban(assetsDestinationDir);
 }
 
 async function reactFramework() {
@@ -336,7 +336,7 @@ async function reactFramework() {
 
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
 
-    await mizban(assetsDestinationDir);
+    // await mizban(assetsDestinationDir);
 }
 
 async function laravelFramework() {
@@ -489,7 +489,7 @@ async function laravelFramework() {
 
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
 
-    await mizban(assetsDestinationDir);
+    // await mizban(assetsDestinationDir);
 }
 
 function copyDirectory(src, dest) {
