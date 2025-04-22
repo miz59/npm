@@ -36,7 +36,7 @@ const copyFile = util.promisify(fs.copyFile);
 async function vueFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
-    const themesSourceDir = path.join(__dirname, 'themes');
+    const mizSourceDir = path.join(__dirname, 'miz');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
 
@@ -45,20 +45,19 @@ async function vueFramework() {
     const framework = 'vue';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${staticDir}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'sass');
-    const themesDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
+    const mizDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = [`./node_modules`, `./${stylesSourceDir}/miz`, `./${stylesSourceDir}/backup-miz`];
+    const contentMizignoreFile = [
+        `./node_modules`,
+        `./${stylesSourceDir}/miz`,
+        `./${stylesSourceDir}/backup-miz`,
+    ];
 
     const backupMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'backup-miz');
-    const mizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
-    const themesMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
-    const sassMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'sass');
 
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(sassDestinationDir, { recursive: true });
-    fs.mkdirSync(themesMizDir, { recursive: true });
-    fs.mkdirSync(sassMizDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
     await new Promise((resolve, reject) => {
@@ -79,9 +78,9 @@ async function vueFramework() {
     fs.mkdirSync(backupMizDir, { recursive: true });
     console.log('backup-miz folder created successfully!');
 
-    if (fs.existsSync(mizDir)) {
+    if (fs.existsSync(mizDestinationDir)) {
         await new Promise((resolve, reject) => {
-            ncp(mizDir, backupMizDir, (err) => {
+            ncp(mizDestinationDir, backupMizDir, (err) => {
                 if (err) return reject('Error copying miz to backup-miz: ' + err);
                 console.log('Files copied from miz to backup-miz folder successfully!');
                 resolve();
@@ -89,28 +88,10 @@ async function vueFramework() {
         });
     }
 
-    if (!fs.existsSync(mizDir)) {
-        fs.mkdirSync(mizDir, { recursive: true });
-        console.log('miz directory created successfully!');
-    }
-
-    if (!fs.existsSync(themesDestinationDir)) {
-        fs.mkdirSync(themesDestinationDir, { recursive: true });
-        console.log('themes directory created successfully!');
-    }
-
     await new Promise((resolve, reject) => {
-        ncp(sassSourceDir, sassMizDir, (err) => {
-            if (err) return reject('Error copying sass: ' + err);
-            console.log('Sass files copied to miz directory successfully!');
-            resolve();
-        });
-    });
-    
-    await new Promise((resolve, reject) => {
-        ncp(themesSourceDir, themesMizDir, (err) => {
-            if (err) return reject('Error copying sass: ' + err);
-            console.log('Themes files copied to miz directory successfully!');
+        ncp(mizSourceDir, mizDestinationDir, (err) => {
+            if (err) return reject('Error copying miz directory: ' + err);
+            console.log('Miz directory copied successfully!');
             resolve();
         });
     });
@@ -125,7 +106,7 @@ async function vueFramework() {
 
     await new Promise((resolve, reject) => {
         fs.copyFile(mizignoreFile, mizignoreDestinationFile, (err) => {
-            if (err) return reject('Error copying miz-min.cjs: ' + err);
+            if (err) return reject('Error copying .mizignore: ' + err);
             console.log('.mizignore copied to project root successfully!');
             resolve();
         });
@@ -182,14 +163,12 @@ async function vueFramework() {
     };
 
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
-
-    // await mizban(assetsDestinationDir);
 }
 
 async function reactFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
-    const themesSourceDir = path.join(__dirname, 'themes');
+    const mizSourceDir = path.join(__dirname, 'miz');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
 
@@ -198,20 +177,19 @@ async function reactFramework() {
     const framework = 'react';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${staticDir}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'sass');
-    const themesDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
+    const mizDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = [`./node_modules`, `./${stylesSourceDir}/miz`, `./${stylesSourceDir}/backup-miz`];
+    const contentMizignoreFile = [
+        `./node_modules`,
+        `./${stylesSourceDir}/miz`,
+        `./${stylesSourceDir}/backup-miz`,
+    ];
 
     const backupMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'backup-miz');
-    const mizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
-    const themesMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
-    const sassMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'sass');
 
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(sassDestinationDir, { recursive: true });
-    fs.mkdirSync(themesMizDir, { recursive: true });
-    fs.mkdirSync(sassMizDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
     await new Promise((resolve, reject) => {
@@ -232,9 +210,9 @@ async function reactFramework() {
     fs.mkdirSync(backupMizDir, { recursive: true });
     console.log('backup-miz folder created successfully!');
 
-    if (fs.existsSync(mizDir)) {
+    if (fs.existsSync(mizDestinationDir)) {
         await new Promise((resolve, reject) => {
-            ncp(mizDir, backupMizDir, (err) => {
+            ncp(mizDestinationDir, backupMizDir, (err) => {
                 if (err) return reject('Error copying miz to backup-miz: ' + err);
                 console.log('Files copied from miz to backup-miz folder successfully!');
                 resolve();
@@ -242,28 +220,10 @@ async function reactFramework() {
         });
     }
 
-    if (!fs.existsSync(mizDir)) {
-        fs.mkdirSync(mizDir, { recursive: true });
-        console.log('miz directory created successfully!');
-    }
-
-    if (!fs.existsSync(themesDestinationDir)) {
-        fs.mkdirSync(themesDestinationDir, { recursive: true });
-        console.log('themes directory created successfully!');
-    }
-
     await new Promise((resolve, reject) => {
-        ncp(sassSourceDir, sassMizDir, (err) => {
-            if (err) return reject('Error copying sass: ' + err);
-            console.log('Sass files copied to miz directory successfully!');
-            resolve();
-        });
-    });
-    
-    await new Promise((resolve, reject) => {
-        ncp(themesSourceDir, themesMizDir, (err) => {
-            if (err) return reject('Error copying sass: ' + err);
-            console.log('Themes files copied to miz directory successfully!');
+        ncp(mizSourceDir, mizDestinationDir, (err) => {
+            if (err) return reject('Error copying miz directory: ' + err);
+            console.log('Miz directory copied successfully!');
             resolve();
         });
     });
@@ -278,7 +238,7 @@ async function reactFramework() {
 
     await new Promise((resolve, reject) => {
         fs.copyFile(mizignoreFile, mizignoreDestinationFile, (err) => {
-            if (err) return reject('Error copying miz-min.cjs: ' + err);
+            if (err) return reject('Error copying .mizignore: ' + err);
             console.log('.mizignore copied to project root successfully!');
             resolve();
         });
@@ -335,14 +295,12 @@ async function reactFramework() {
     };
 
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
-
-    // await mizban(assetsDestinationDir);
 }
 
 async function laravelFramework() {
     const assetsSourceDir = path.join(__dirname, 'assets');
     const sassSourceDir = path.join(__dirname, 'sass');
-    const themesSourceDir = path.join(__dirname, 'themes');
+    const mizSourceDir = path.join(__dirname, 'miz');
     const mizMinFile = path.join(__dirname, 'miz-min.cjs');
     const mizignoreFile = path.join(__dirname, '.mizignore');
 
@@ -351,20 +309,19 @@ async function laravelFramework() {
     const framework = 'laravel';
     const assetsDestinationDir = path.join(__dirname, '..', '..', `${staticDir}`, 'assets');
     const sassDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'sass');
-    const themesDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
+    const mizDestinationDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
     const mizMinDestinationFile = path.join(__dirname, '..', '..', 'miz-min.cjs');
     const mizignoreDestinationFile = path.join(__dirname, '..', '..', '.mizignore');
-	const contentMizignoreFile = [`./node_modules`, `./${stylesSourceDir}/miz`, `./${stylesSourceDir}/backup-miz`];
+    const contentMizignoreFile = [
+        `./node_modules`,
+        `./${stylesSourceDir}/miz`,
+        `./${stylesSourceDir}/backup-miz`,
+    ];
 
     const backupMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'backup-miz');
-    const mizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz');
-    const themesMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'themes');
-    const sassMizDir = path.join(__dirname, '..', '..', `${stylesSourceDir}`, 'miz' , 'sass');
 
     fs.mkdirSync(assetsDestinationDir, { recursive: true });
     fs.mkdirSync(sassDestinationDir, { recursive: true });
-    fs.mkdirSync(themesMizDir, { recursive: true });
-    fs.mkdirSync(sassMizDir, { recursive: true });
     fs.mkdirSync(path.dirname(mizMinDestinationFile), { recursive: true });
 
     await new Promise((resolve, reject) => {
@@ -385,9 +342,9 @@ async function laravelFramework() {
     fs.mkdirSync(backupMizDir, { recursive: true });
     console.log('backup-miz folder created successfully!');
 
-    if (fs.existsSync(mizDir)) {
+    if (fs.existsSync(mizDestinationDir)) {
         await new Promise((resolve, reject) => {
-            ncp(mizDir, backupMizDir, (err) => {
+            ncp(mizDestinationDir, backupMizDir, (err) => {
                 if (err) return reject('Error copying miz to backup-miz: ' + err);
                 console.log('Files copied from miz to backup-miz folder successfully!');
                 resolve();
@@ -395,28 +352,10 @@ async function laravelFramework() {
         });
     }
 
-    if (!fs.existsSync(mizDir)) {
-        fs.mkdirSync(mizDir, { recursive: true });
-        console.log('miz directory created successfully!');
-    }
-
-    if (!fs.existsSync(themesDestinationDir)) {
-        fs.mkdirSync(themesDestinationDir, { recursive: true });
-        console.log('themes directory created successfully!');
-    }
-
     await new Promise((resolve, reject) => {
-        ncp(sassSourceDir, sassMizDir, (err) => {
-            if (err) return reject('Error copying sass: ' + err);
-            console.log('Sass files copied to miz directory successfully!');
-            resolve();
-        });
-    });
-    
-    await new Promise((resolve, reject) => {
-        ncp(themesSourceDir, themesMizDir, (err) => {
-            if (err) return reject('Error copying sass: ' + err);
-            console.log('Themes files copied to miz directory successfully!');
+        ncp(mizSourceDir, mizDestinationDir, (err) => {
+            if (err) return reject('Error copying miz directory: ' + err);
+            console.log('Miz directory copied successfully!');
             resolve();
         });
     });
@@ -431,7 +370,7 @@ async function laravelFramework() {
 
     await new Promise((resolve, reject) => {
         fs.copyFile(mizignoreFile, mizignoreDestinationFile, (err) => {
-            if (err) return reject('Error copying miz-min.cjs: ' + err);
+            if (err) return reject('Error copying .mizignore: ' + err);
             console.log('.mizignore copied to project root successfully!');
             resolve();
         });
@@ -488,8 +427,6 @@ async function laravelFramework() {
     };
 
     fs.writeFileSync(projectPackageJsonPath, JSON.stringify(projectPackageJson, null, 2));
-
-    // await mizban(assetsDestinationDir);
 }
 
 function copyDirectory(src, dest) {

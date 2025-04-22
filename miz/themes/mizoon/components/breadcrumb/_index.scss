@@ -1,0 +1,55 @@
+@use "../../../../sass/kernel/kernel-functions/colors";
+
+.breadcrumb{
+    width:fit-content;
+
+    & > *{
+        // @extend .d-flex, .flex-row, .flex-wrap, .justify-content-center, .align-items-center;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &[style*="--content"]{
+        & li{
+            color:colors.get-color(section-title-text);
+            // @extend .d-flex, .flex-row, .gap-1, .justify-content-center, .align-items-center;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            // gap: 0.5rem;
+            
+            & a{
+                color:colors.get-color(section-title-text);
+            }
+
+            &::after{
+                content: var(--content);
+                // @extend .d-inline-block;
+                display: inline-block;
+            }
+
+            &:last-child::after{
+                content:'';
+            }
+
+            &.active{
+                color:colors.get-color(primary);
+
+                & a{
+                    color:colors.get-color(primary);
+                }
+            }
+        }
+    }
+}
+div:has(.breadcrumb){
+    // @extend .d-flex, .flex-row, .align-items-center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
